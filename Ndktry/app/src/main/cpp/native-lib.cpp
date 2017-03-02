@@ -9,7 +9,9 @@ jstring Java_com_vinayvishnumurthy_ndktry_MainActivity_stringFromJNI(
     return env->NewStringUTF(hello.c_str());
 }
 
-jint Java_com_vinayvishnumurthy_ndktry_MainActivity_addNumbers(JNIEnv *env, jobject, jint a, jint b)
+extern  "C"
+JNIEXPORT jint Java_com_vinayvishnumurthy_ndktry_MainActivity_addNumbers(JNIEnv *env, jobject, jint a, jint b)
 {
-    return (a+b);
+    int result = a + b;
+    return result;
 }
