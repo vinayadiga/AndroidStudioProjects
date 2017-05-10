@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_gradient">
+
+    <RadioGroup
+        android:layout_centerHorizontal="true"
+        android:id="@+id/radio_sdk"
+        android:layout_marginTop="30dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:layout_editor_absoluteY="8dp"
+        tools:layout_editor_absoluteX="8dp">
+    <RadioButton
+        android:id="@+id/radioButton1"
+        android:layout_width="164dp"
+        android:layout_height="30dp"
+        android:text="Google Voice"
+        android:textColor="@android:color/white"
+        android:textColorHighlight="@android:color/holo_purple"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="16dp" />
+
+    <RadioButton
+        android:id="@+id/radioButton2"
+        android:layout_width="164dp"
+        android:layout_height="30dp"
+        android:text="Microsoft Speech"
+        android:textColor="@android:color/white"
+        android:textColorHighlight="@android:color/holo_purple"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="59dp" />
+    </RadioGroup>
+
+    <ImageButton
+        android:layout_below="@id/radio_sdk"
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/btnSpeak"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:src="@android:drawable/ic_btn_speak_now" />
+
+    <TextView
+        android:layout_below="@id/btnSpeak"
+        android:layout_marginTop="30dp"
+        android:id="@+id/textView"
+        android:layout_width="fill_parent"
+        android:layout_height="150dp"
+        android:text="TextView"
+        android:textColor="@android:color/white"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        tools:layout_editor_absoluteX="10dp"
+        tools:layout_editor_absoluteY="221dp" />
+
+</RelativeLayout>
