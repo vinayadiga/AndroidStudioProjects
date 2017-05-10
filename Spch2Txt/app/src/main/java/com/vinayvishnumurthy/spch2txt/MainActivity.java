@@ -7,6 +7,7 @@ import android.speech.RecognizerIntent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -29,6 +30,9 @@ import java.io.IOException;
 import java.io.InputStream;
 
 
+import java.io.PrintWriter;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -42,12 +46,17 @@ public class MainActivity extends AppCompatActivity implements ISpeechRecognitio
     SpeechRecognitionMode m_recoMode;
     boolean m_isIntent;
 
-    private TextView txt_SpeechInput;
+    private TextView txt_SpeechInput, txt_Status;
     private RadioGroup rg_speech_sdk;
     private RadioButton rb_selected_sdk;
     private ImageButton b_microphone;
+    private Button b_connect;
 
     private final int REQ_CODE_SPEECH_INPUT = 100;
+
+    //server
+    Socket client;
+    PrintWriter printwriter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +81,16 @@ public class MainActivity extends AppCompatActivity implements ISpeechRecognitio
         rg_speech_sdk = (RadioGroup) findViewById(R.id.radio_sdk);
         b_microphone = (ImageButton) findViewById(R.id.btnSpeak);
         txt_SpeechInput = (TextView) findViewById(R.id.textView);
+        txt_Status = (TextView) findViewById(R.id.textView2);
+        b_connect = (Button) findViewById(R.id.connect_button);
+
+        b_connect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                connect();
+            }
+        });
+
         b_microphone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -107,7 +126,7 @@ public class MainActivity extends AppCompatActivity implements ISpeechRecognitio
     {
         String language = "en-us";
 
-        String primaryOrSecondaryKey = "";
+        String primaryOrSecondaryKey = "f8991fa8f0114dfaa9b0ef0ad7d6b30c";
         String luisAppID = "";
         String luisSubscriptionID = "";
 
@@ -274,4 +293,58 @@ public class MainActivity extends AppCompatActivity implements ISpeechRecognitio
             dataClient.endAudio();
         }
     }
+
+    public void connect() {
+        new Thread(new Runnable(){
+
+            @Override
+            public void run() {
+                try {
+
+                    //client = new Socket("182.55.163.130", 9999);
+                    client = new Socket("192.168.0.172", 9998);
+                    printwriter = new PrintWriter(client.getOutputStream(), true);
+                    printwriter.write(txt_SpeechInput.getText().toString()); // write the message to output stream
+                    printwriter.flush();
+                    printwriter.close();
+                    boolean connection = true;
+                    Log.d("socket", "connected " + connection);
+
+                    // Toast in background becauase Toast cannnot be in main thread you have to create runOnuithread.
+                    // this is run on ui thread where dialogs and all other GUI will run.
+                    if (client.isConnected()) {
+                        MainActivity.this.runOnUiThread(new Runnable() {
+                            public void run() {
+                                //Do your UI operations like dialog opening or Toast here
+                                txt_Status.setText("Connected");
+                                Toast.makeText(getApplicationContext(), "Messege send", Toast.LENGTH_SHORT).show();
+                                txt_Status.setText("Data Sent");
+                            }
+                        });
+                    }
+                }
+                catch (UnknownHostException e2){
+                    MainActivity.this.runOnUiThread(new Runnable() {
+                        public void run() {
+                            //Do your UI operations like dialog opening or Toast here
+                            Toast.makeText(getApplicationContext(), "Unknown host please make sure IP address", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+                }
+                catch (IOException e1) {
+                    Log.d("socket", "IOException");
+                    MainActivity.this.runOnUiThread(new Runnable() {
+                        public void run() {
+                            //Do your UI operations like dialog opening or Toast here
+                            txt_Status.setText("Something is wrong");
+                            Toast.makeText(getApplicationContext(), "Error Occured", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+
+            }
+        }).start();
+    }
+
 }

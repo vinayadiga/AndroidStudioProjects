@@ -50,11 +50,34 @@
         android:id="@+id/textView"
         android:layout_width="fill_parent"
         android:layout_height="150dp"
-        android:text="TextView"
         android:textColor="@android:color/white"
         android:layout_marginRight="10dp"
         android:layout_marginLeft="10dp"
         tools:layout_editor_absoluteX="10dp"
         tools:layout_editor_absoluteY="221dp" />
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:layout_below="@+id/textView"
+    android:layout_marginTop="30dp">
+    <Button
+        android:id="@+id/connect_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Send Text"
+        android:layout_marginLeft="21dp"
+        android:layout_marginStart="21dp" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:textColor="@android:color/white"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="30dp"/>
+
+</LinearLayout>
+
 
 </RelativeLayout>
